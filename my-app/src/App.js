@@ -34,6 +34,9 @@ class App extends Component {
   };
 
   render() {
+    const style={
+      fontSize: "18px"
+    };
 
     return (<div className="App">
               <Person name={ this.state.persons[0].name } 
@@ -44,7 +47,8 @@ class App extends Component {
               <Person name={ this.state.persons[2].name } 
                       age={ this.state.persons[2].age }/>
            
-              <button onClick={ this.switchNameHandler }>
+              <button style={ style }
+                      onClick={ this.switchNameHandler }>
                 Switch Name
               </button>         
             </div>);    
