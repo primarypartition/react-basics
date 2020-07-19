@@ -33,14 +33,44 @@ import './Person.css';
 //   	      </div>);
 // }
 
+// var person = (props) => {
+//   return (<div>
+//   	        <h1>Name: { props.name }, Age: { props.age }</h1>
+
+//   	        <div>
+//   	        	<input type="text" onChange={ props.changeNameAction } value={ props.name } />
+//   	        </div>  
+  	    
+//   	      </div>);
+// }
+
+// var person = (props) => {
+//   return (<div>
+//   	        <h1>Name: { props.name }, Age: { props.age }</h1>
+  	        
+//   	        <div>
+//   	        	<input type="text" value={ props.name } />
+//   	        </div>    	    
+//   	      </div>);
+// }
+
 var person = (props) => {
   return (<div>
-  	        <h1>Name: { props.name }, Age: { props.age }</h1>
+  					<div>
+  	        	<h1>Name: { props.name }, Age: { props.age }</h1>
+  	        </div>
 
   	        <div>
-  	        	<input type="text" onChange={ props.changeNameAction } value={ props.name } />
-  	        </div>  
-  	    
+  	        	<input type="text" 
+  	        	       onChange= { props.changeNameAction }
+  	        	       value={ props.name } />
+  	        </div>
+
+  	        <div>
+  	        	<button onClick={ props.deletePersonAction }>
+  	        		Delete
+	        		</button>
+  	        </div>    	    
   	      </div>);
 }
 
