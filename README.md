@@ -10,3 +10,13 @@
 
 > npm start
 
+
+# Style Libs
+
+> npm install --save radium 
+
+> npm install --save styled-components
+ 
+> npm run eject
+
+
