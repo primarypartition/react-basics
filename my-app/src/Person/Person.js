@@ -1,30 +1,16 @@
 import React from 'react';
+
 import './Person.css';
 
 var person = (props) => {
-  let classes = ['h11', 'h12'].join(' ');
-
   return (<div>
-            <div>
-              <h1 className= { classes } >
-                  Name: { props.name }, 
-                  Age: { props.age }
-              </h1>
-            </div>
+  	        <h1>Name: { props.name }, Age: { props.age }</h1>
+  	        <h2>Other: { props.children }</h2>
 
-            <div>
-              <input type="text" 
-                     onChange= { props.changeNameAction }
-                     value={ props.name } />
-            </div>
-
-            <div>
-              <button className= "button"
-                      onClick= { props.deletePersonAction }>
-                Delete
-              </button>
-            </div>          
-          </div>);
+  	        <button type="text" onChange={ props.changeNameAction } value={ props.name } >
+  	          Action
+  	        </button>
+  	      </div>);
 }
 
 export default person;

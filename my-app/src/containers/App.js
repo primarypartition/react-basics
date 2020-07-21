@@ -1,16 +1,19 @@
 import React, { Component } from 'react';
-import './App.css';
-import Person from './Person/Person';
+import Persons from '../components/Persons/Persons';
+import Cockpit from '../components/Cockpit/Cockpit';
+
+import css from './App.css';
 
 class App extends Component {
   state = {
     persons: [
-      {name: "Mary", age: "20"},  
-      {name: "John", age: "30"},
-      {name: "Pete", age: "40"}
+      {id: 1, name: "Mary", age: "20"},  
+      {id: 2, name: "John", age: "30"},
+      {id: 3, name: "Pete", age: "40"}
     ],
     
-    proStr: "Ut at lectus viverra, faucibus enim."
+    proStr: "Ut at lectus viverra, faucibus enim.",
+    showPersons: true
   };
 
   switchNameHandler = (name) => {
@@ -56,28 +59,21 @@ class App extends Component {
 
   render() {
     let persons = null;
-    
+
     if (this.state.showPersons) {
-      persons = (<div>
-                { this.state.persons.map( (person, index) => {
-                    return (<Person name= { person.name } 
-                                    age= { person.age } 
-                                    key={ person.id }
-                                    changeNameAction= { (event) => this.changeNameHandler(event, person.id) }
-                                    deletePersonAction= { () => this.deletePersonHandler(index) }/> ); })
-                }
-                </div>);      
+      persons = (<div>      
+                  <Persons persons = { this.state.persons }                             
+                          changeNameAction = { this.changeNameHandler }
+                          deletePersonAction = { this.deletePersonHandler }/>
+                </div>);
     }
 
-    return (   
-      <div className="App">              
-        { persons }    
-        
-        <button onClick= { this.toggleNameHandler }>
-          Toggle List
-        </button>       
-      </div>);
-  }
+    return (<div className = { css.App }>  
+              <Cockpit toggleNameAction = {this.toggleNameHandler }/>
+              
+              { persons }  
+            </div>); 
+    }
 }
 
 export default App;

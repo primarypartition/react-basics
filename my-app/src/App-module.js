@@ -1,16 +1,17 @@
 import React, { Component } from 'react';
-import './App.css';
+import css from './App.css';
 import Person from './Person/Person';
 
 class App extends Component {
   state = {
     persons: [
-      {name: "Mary", age: "20"},  
-      {name: "John", age: "30"},
-      {name: "Pete", age: "40"}
+      {id: 1, name: "Mary", age: "20"},  
+      {id: 2, name: "John", age: "30"},
+      {id: 3, name: "Pete", age: "40"}
     ],
     
-    proStr: "Ut at lectus viverra, faucibus enim."
+    proStr: "Ut at lectus viverra, faucibus enim.",
+    showPersons: true
   };
 
   switchNameHandler = (name) => {
@@ -70,13 +71,14 @@ class App extends Component {
     }
 
     return (   
-      <div className="App">              
+      <div className={ css.App }>              
         { persons }    
         
         <button onClick= { this.toggleNameHandler }>
           Toggle List
         </button>       
-      </div>);
+      </div>
+   );   
   }
 }
 
