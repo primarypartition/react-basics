@@ -27,5 +27,3 @@ localIdentName: '[name]__[local]__[hash:base64:5]'
 
 > npm install --save prop-types
 
-
-
