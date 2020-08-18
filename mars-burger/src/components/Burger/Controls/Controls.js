@@ -23,7 +23,8 @@ const Controls = (props) => {
   				                remove={() => props.ingredientRemove(item.type)} /> 
   			})}
   			<button className={css.OrderButton}
-  			        disabled={props.canOrder}>
+  			        disabled={props.canOrder}
+                onClick={props.canAddOrder}>
   				Order Now!
   			</button>
   	     </div>); 

@@ -4,6 +4,7 @@ import Warpper from '../../hoc/Warpper';
 import Burger from '../../components/Burger/Burger';
 import Controls from '../../components/Burger/Controls/Controls';
 import Modal from '../../components/UI/Modal/Modal';
+import Order from '../../components/Burger/Order/Order';
 
 const INGREDIENT_PRICES = {
   salad: 1,
@@ -24,8 +25,21 @@ class BurgerBuilder extends Component {
 				meat: 0
 			},
 			totalPrice: 2,
-			canOrder: true
+			canOrder: true,
+			canAddOrder: false
 		}
+	}
+
+	canAddOrderHandler = () => {
+		this.setState({canAddOrder: true});
+	}
+
+	modalClosedHandler = () => {
+		this.setState({canAddOrder: false});
+	}
+
+	orderContinueHandler = () => {
+		alert("Continue");
 	}
 
 	canOrderItem(ingredients) {		
@@ -95,13 +109,24 @@ class BurgerBuilder extends Component {
 		}
 
 		return (<Warpper>
-				  <Modal />
+				  <Modal show={this.state.canAddOrder}
+				         modalClosed={this.modalClosedHandler}>
+
+				  	<Order ingredients={this.state.ingredients}
+				  	       orderCancel={this.modalClosedHandler}
+				  	       orderContiune={this.orderContinueHandler}
+				  	       price={this.state.totalPrice}/>
+				  	       
+				  </Modal>	
+
 			      <Burger ingredients={this.state.ingredients} />
+
 			      <Controls ingredientAdd={this.addIngredientHandler}
 			                ingredientRemove={this.removeIngredientHandler}
 			                disabledInfo={disabledInfo} 
 			                price={this.state.totalPrice}
-			                canOrder={this.state.canOrder}/>
+			                canOrder={this.state.canOrder}
+			                canAddOrder={this.canAddOrderHandler}/>
 	    		</Warpper>);
 	}
 }
