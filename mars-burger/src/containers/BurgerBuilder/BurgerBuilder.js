@@ -1,10 +1,16 @@
 import React, { Component } from 'react';
 
+import Modal from '../../components/UI/Modal/Modal';
+import Spinner from '../../components/UI/Spinner/Spinner';
+
 import Warpper from '../../hoc/Warpper';
+import withErrorHandler from '../../hoc/withErrorHandler/withErrorHandler';
+import axios_orders from '../../axios-orders';
+
 import Burger from '../../components/Burger/Burger';
 import Controls from '../../components/Burger/Controls/Controls';
-import Modal from '../../components/UI/Modal/Modal';
 import Order from '../../components/Burger/Order/Order';
+
 
 const INGREDIENT_PRICES = {
   salad: 1,
@@ -18,16 +24,22 @@ class BurgerBuilder extends Component {
 		super(props);
 
 		this.state = {
-			ingredients: {
-				salad: 0,
-				bacon: 0,
-				cheese: 0,
-				meat: 0
-			},
+			ingredients: null,
 			totalPrice: 2,
 			canOrder: true,
-			canAddOrder: false
+			canAddOrder: false,
+			loading: false
 		}
+	}
+
+	componentDidMount() {
+		axios_orders.get('/ingredients.json')
+		            .then((response) => {		            	
+		            	this.setState({ingredients: response.data})
+		            })
+		            .catch((error) => {
+						
+					});;
 	}
 
 	canAddOrderHandler = () => {
@@ -39,7 +51,32 @@ class BurgerBuilder extends Component {
 	}
 
 	orderContinueHandler = () => {
-		alert("Continue");
+		this.setState({loading: true});
+
+		const order = {
+			ingredients: this.state.ingredients,
+			price: this.state.totalPrice,
+			customer: {
+				name: 'Ali',
+				address: {
+					street: '123 North Pole',
+					zipCode: '01234',
+					country: 'USA'
+				},
+				email: 'nomail@example.com'
+			},
+			deliveryMethod: 'fastest'
+		}
+
+		axios_orders.post('/orders.json', order)
+					.then((response) => {
+						this.setState({loading: false,
+		               				  canAddOrder: false});
+					})
+					.catch((error) => {
+						this.setState({loading: false,
+		               				  canAddOrder: false});
+					});
 	}
 
 	canOrderItem(ingredients) {		
@@ -104,31 +141,52 @@ class BurgerBuilder extends Component {
 			...this.state.ingredients
 		}
 
+		let orderSummary = null;
+
+		if (this.state.ingredients) {
+			orderSummary = (<Order ingredients={this.state.ingredients}
+				  	       orderCancel={this.modalClosedHandler}
+				  	       orderContiune={this.orderContinueHandler}
+				  	       price={this.state.totalPrice}/>);
+		}
+			
+		if (this.state.loading) {
+			orderSummary = (<Spinner />);
+		}
+
 		for (let key in disabledInfo) {
 			disabledInfo[key] = disabledInfo[key] <= 0;
+		}
+
+		let burger = (<Spinner />);
+
+		if (this.state.ingredients) {
+			burger = (<Warpper>
+
+			     	 <Burger ingredients={this.state.ingredients} />
+
+			      	 <Controls ingredientAdd={this.addIngredientHandler}
+			                   ingredientRemove={this.removeIngredientHandler}
+			                   disabledInfo={disabledInfo} 
+			                   price={this.state.totalPrice}
+			                   canOrder={this.state.canOrder}
+			                   canAddOrder={this.canAddOrderHandler}/>
+
+			         </Warpper>);
 		}
 
 		return (<Warpper>
 				  <Modal show={this.state.canAddOrder}
 				         modalClosed={this.modalClosedHandler}>
 
-				  	<Order ingredients={this.state.ingredients}
-				  	       orderCancel={this.modalClosedHandler}
-				  	       orderContiune={this.orderContinueHandler}
-				  	       price={this.state.totalPrice}/>
+				  	{orderSummary}
 				  	       
 				  </Modal>	
 
-			      <Burger ingredients={this.state.ingredients} />
+		  		  {burger}
 
-			      <Controls ingredientAdd={this.addIngredientHandler}
-			                ingredientRemove={this.removeIngredientHandler}
-			                disabledInfo={disabledInfo} 
-			                price={this.state.totalPrice}
-			                canOrder={this.state.canOrder}
-			                canAddOrder={this.canAddOrderHandler}/>
 	    		</Warpper>);
 	}
 }
 
-export default BurgerBuilder; 
+export default withErrorHandler(BurgerBuilder, axios_orders); 

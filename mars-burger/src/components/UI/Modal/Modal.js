@@ -6,14 +6,15 @@ import Warpper from '../../../hoc/Warpper';
 import Backdrop from '../Backdrop/Backdrop';
 
 class Modal extends Component {
+
 	shouldComponentUpdate(nextProps, nextState) {
-		if (nextProps !== this.props.show) {
+		if (nextProps !== this.props.show || nextProps.children !== this.props.children) {
 			return true;
 		}
 	}
 
-	componentWillUpdate() {
-		console.log("Modal Will Update");
+	UNSAFE_componentWillUpdate() {
+		//console.log("Modal Will Update");
 	}
 
 	render () {

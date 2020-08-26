@@ -27,3 +27,7 @@ localIdentName: '[name]__[local]__[hash:base64:5]'
 
 > npm install --save prop-types
 
+> npm install --save axios
+
+> npm install --save react-router-dom
+
