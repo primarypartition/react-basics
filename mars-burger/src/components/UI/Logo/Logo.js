@@ -1,7 +1,6 @@
 import React from 'react';
 
 import css from './Logo.css';
-
 import burgerLogo from '../../../assets/images/logo.jpg';
 
 const Logo = (props) => {

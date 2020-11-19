@@ -42,6 +42,7 @@ class Order extends Component  {
 						btnType="Danger">
 					Cancel
 				</Button>
+				
 				<Button clicked={this.props.orderContiune}
 						btnType="Success">
 					Continue

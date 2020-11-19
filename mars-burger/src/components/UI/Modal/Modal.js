@@ -1,12 +1,11 @@
 import React, { Component } from 'react';
 
 import css from './Modal.css';
-
-import Warpper from '../../../hoc/Warpper';
 import Backdrop from '../Backdrop/Backdrop';
 
-class Modal extends Component {
+import Warpper from '../../../hoc/Warpper';
 
+class Modal extends Component {
 	shouldComponentUpdate(nextProps, nextState) {
 		if (nextProps !== this.props.show || nextProps.children !== this.props.children) {
 			return true;
