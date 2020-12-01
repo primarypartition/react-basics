@@ -7,41 +7,19 @@ import Spinner from '../../components/UI/Spinner/Spinner';
 import Warpper from '../../hoc/Warpper';
 import withErrorHandler from '../../hoc/withErrorHandler/withErrorHandler';
 import axios_orders from '../../axios-orders';
-import * as actionTypes from '../../store/actions';
+import * as actions from '../../store/actions/index';
 
 import Burger from '../../components/Burger/Burger';
 import Controls from '../../components/Burger/Controls/Controls';
 import Order from '../../components/Burger/Order/Order';
 
-// const INGREDIENT_PRICES = {
-//   salad: 1,
-//   bacon: 1,
-//   cheese: 1,
-//   meat: 1
-// };
-
 class BurgerBuilder extends Component {
-	constructor(props) {
-		super(props);
+	state = {
+        canAddOrder: false
+    }
 
-		this.state = {
-			// ingredients: null,
-			// totalPrice: 2,
-			// canOrder: true,
-			canAddOrder: false,
-			loading: false,
-			// error: false
-		}
-	}
-
-	componentDidMount() {
-		// axios_orders.get('/ingredients.json')
-		//             .then((response) => {		            	
-		//             	this.setState({ingredients: response.data})
-		//             })
-		//             .catch((error) => {
-						
-		// 			});;
+	componentDidMount() {		
+		this.props.onInitIngredients();
 	}
 
 	canAddOrderHandler = () => {
@@ -52,47 +30,11 @@ class BurgerBuilder extends Component {
 		this.setState({canAddOrder: false});
 	}
 
-	orderContinueHandler = () => {
-		// this.setState({loading: true});
+	orderContinueHandler = () => {	
+        this.props.onInitPurchase();
 
-		// const order = {
-		// 	ingredients: this.state.ingredients,
-		// 	price: this.state.totalPrice,
-		// 	customer: {
-		// 		name: 'Ali',
-		// 		address: {
-		// 			street: '123 North Pole',
-		// 			zipCode: '01234',
-		// 			country: 'USA'
-		// 		},
-		// 		email: 'nomail@example.com'
-		// 	},
-		// 	deliveryMethod: 'fastest'
-		// }
-
-		// axios_orders.post('/orders.json', order)
-		// 			.then((response) => {
-		// 				this.setState({loading: false,
-		//                				  canAddOrder: false});
-		// 			})
-		// 			.catch((error) => {
-		// 				this.setState({loading: false,
-		//                				  canAddOrder: false});
-		// 			});
-
-		// const queryParams = [];
-
-  //       for (let i in this.state.ingredients) {
-  //           queryParams.push(encodeURIComponent(i) + '=' + encodeURIComponent(this.state.ingredients[i]));
-  //       }
-
-  //       queryParams.push('price=' + this.props.price);
-
-  //       const queryString = queryParams.join('&');
-        
         this.props.history.push({
-            pathname: '/checkout'//,
-            // search: '?' + queryString
+            pathname: '/checkout'
         });
 	}
 
@@ -108,49 +50,6 @@ class BurgerBuilder extends Component {
         return ! sum > 0;
 	}
 
-	// addIngredientHandler = (type) => {
-	// 	const preCount =  this.state.ingredients[type];
-	// 	const newCount = preCount + 1;
-	// 	const newIngredients = {
-	// 		...this.state.ingredients
-	// 	};
-	// 	newIngredients[type] = newCount;
-
-	// 	const prePrice = this.state.totalPrice;
-	// 	const ingredientPrice = INGREDIENT_PRICES[type];
- //        const newPrice = prePrice + ingredientPrice;
-
- //        this.setState({
- //        	ingredients: newIngredients,
- //        	totalPrice: newPrice
- //        });
-
- //        this.canOrderItem(newIngredients);
- //    }
-
-	// removeIngredientHandler = (type) => {
-	// 	const preCount =  this.state.ingredients[type];
-
-	// 	if (preCount > 0) {
-	// 		const newCount = preCount - 1;
-	// 		const newIngredients = {
-	// 			...this.state.ingredients
-	// 		};
-	// 		newIngredients[type] = newCount;
-		
-	// 		const prePrice = this.state.totalPrice;
-	// 		const ingredientPrice = INGREDIENT_PRICES[type];
-	//         const newPrice = prePrice - ingredientPrice;
-
-	//         this.setState({
-	//         	ingredients: newIngredients,
-	//         	totalPrice: newPrice
-	//         });
-
-	//         this.canOrderItem(newIngredients);
- //    	}
-	// }
-
 	render() {
 		const disabledInfo = {
 			...this.props.ings
@@ -159,6 +58,7 @@ class BurgerBuilder extends Component {
 		let orderSummary = null;
 
 		if (this.props.ings) {
+			
 			orderSummary = (<Order ingredients={this.props.ings}
 				  	       orderCancel={this.modalClosedHandler}
 				  	       orderContiune={this.orderContinueHandler}
@@ -173,7 +73,7 @@ class BurgerBuilder extends Component {
 			disabledInfo[key] = disabledInfo[key] <= 0;
 		}
 
-		let burger = (<Spinner />);
+		let burger = this.props.error ? <p>Ingredients can't be loaded!</p> : <Spinner />;
 
 		if (this.props.ings) {
 			burger = (<Warpper>
@@ -206,15 +106,18 @@ class BurgerBuilder extends Component {
 
 const mapStateToProps = state => {
     return {
-        ings: state.ingredients,
-        price: state.totalPrice
+        ings: state.burgerBuilder.ingredients,
+        price: state.burgerBuilder.totalPrice,
+        error: state.burgerBuilder.error
     };
 }
 
 const mapDispatchToProps = dispatch => {
     return {
-        onIngredientAdded: (ingName) => dispatch({type: actionTypes.ADD_INGREDIENT, ingredientName: ingName}),
-        onIngredientRemoved: (ingName) => dispatch({type: actionTypes.REMOVE_INGREDIENT, ingredientName: ingName})
+        onIngredientAdded: (ingName) => dispatch(actions.addIngredient(ingName)),
+        onIngredientRemoved: (ingName) => dispatch(actions.removeIngredient(ingName)),
+        onInitIngredients: () => dispatch(actions.initIngredients()),
+        onInitPurchase: () => dispatch(actions.purchaseInit())
     }
 }
 

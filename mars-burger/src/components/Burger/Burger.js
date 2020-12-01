@@ -6,6 +6,7 @@ import css from './Burger.css'
 import Ingredient from './Ingredient/Ingredient';
 
 const Burger = (props) => {
+  
 	let ingredients = Object.keys(props.ingredients)
                               .map((ikey) => {
                               	return [...Array(props.ingredients[ikey])].map((_, i) => {

@@ -12,10 +12,6 @@ class Modal extends Component {
 		}
 	}
 
-	UNSAFE_componentWillUpdate() {
-		//console.log("Modal Will Update");
-	}
-
 	render () {
 		return (<Warpper>
 					<Backdrop show={this.props.show}

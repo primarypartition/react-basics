@@ -31,3 +31,7 @@ localIdentName: '[name]__[local]__[hash:base64:5]'
 
 > npm install --save react-router-dom
 
+
+# Redux Dev Tools
+
+> https://github.com/reduxjs/redux-devtools

@@ -5,7 +5,7 @@ import Button from '../../UI/Button/Button';
 
 class Order extends Component  {
 	componentDidUpdate() {
-		console.log("Order Did Update");
+		
 	}
 
 	render () {
