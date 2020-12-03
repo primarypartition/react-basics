@@ -13,7 +13,7 @@ import Burger from '../../components/Burger/Burger';
 import Controls from '../../components/Burger/Controls/Controls';
 import Order from '../../components/Burger/Order/Order';
 
-class BurgerBuilder extends Component {
+export class BurgerBuilder extends Component {
 	state = {
         canAddOrder: false
     }
@@ -22,8 +22,13 @@ class BurgerBuilder extends Component {
 		this.props.onInitIngredients();
 	}
 
-	canAddOrderHandler = () => {
-		this.setState({canAddOrder: true});
+	canAddOrderHandler = () => {		
+	    if (this.props.isAuthenticated) {
+            this.setState( { canAddOrder: true } );
+        } else {
+            this.props.onSetAuthRedirectPath('/checkout');
+            this.props.history.push('/auth');
+        }
 	}
 
 	modalClosedHandler = () => {
@@ -85,7 +90,8 @@ class BurgerBuilder extends Component {
 			                   disabledInfo={disabledInfo} 
 			                   price={this.props.price}
 			                   canOrder={this.canOrderItem(this.props.ings)}
-			                   canAddOrder={this.canAddOrderHandler}/>
+			                   canAddOrder={this.canAddOrderHandler}
+			                   isAuth={this.props.isAuthenticated}/>
 
 			         </Warpper>);
 		}
@@ -108,7 +114,8 @@ const mapStateToProps = state => {
     return {
         ings: state.burgerBuilder.ingredients,
         price: state.burgerBuilder.totalPrice,
-        error: state.burgerBuilder.error
+        error: state.burgerBuilder.error,
+        isAuthenticated: state.auth.token !== null
     };
 }
 
@@ -117,7 +124,8 @@ const mapDispatchToProps = dispatch => {
         onIngredientAdded: (ingName) => dispatch(actions.addIngredient(ingName)),
         onIngredientRemoved: (ingName) => dispatch(actions.removeIngredient(ingName)),
         onInitIngredients: () => dispatch(actions.initIngredients()),
-        onInitPurchase: () => dispatch(actions.purchaseInit())
+        onInitPurchase: () => dispatch(actions.purchaseInit()),
+        onSetAuthRedirectPath: (path) => dispatch(actions.setAuthRedirectPath(path))
     }
 }
 

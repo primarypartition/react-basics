@@ -23,9 +23,9 @@ const Controls = (props) => {
   				                remove={() => props.ingredientRemove(item.type)} /> 
   			})}
   			<button className={css.OrderButton}
-  			        disabled={props.canOrder}
+  			        disabled={props.canOrder}                
                 onClick={props.canAddOrder}>
-  				Order Now!
+  				{props.isAuth ? 'ORDER NOW' : 'SIGN UP TO ORDER'}
   			</button>
   	     </div>); 
 }

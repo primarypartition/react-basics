@@ -19,11 +19,11 @@ const SideDrawer = (props) => {
 			<Backdrop show={props.show}
 					  removeBackdrop={props.close} />
 			
-			<div className={attachClasses.join(' ')}>
+			<div className={attachClasses.join(' ')} onClick={props.close}>
 				<Logo height="20%"/>
 
 				<nav>
-					<NavItems />
+					<NavItems isAuthenticated={props.isAuth} />
 				</nav>
 		    </div>
 

@@ -35,3 +35,45 @@ localIdentName: '[name]__[local]__[hash:base64:5]'
 # Redux Dev Tools
 
 > https://github.com/reduxjs/redux-devtools
+
+
+# Firebase Auth
+
+> https://firebase.google.com/docs/reference/rest/auth
+
+> Rules
+
+```
+{
+  "rules": {
+    "ingredients": {
+      ".read": true,
+      ".write": true
+    },
+    "orders": {
+      ".read": "auth.uid != null",
+      ".write": "auth.uid != null",
+      ".indexOn": "userId"
+    }    
+  }
+}
+```
+
+
+# Test
+
+> npm install --save react-test-renderer enzyme-adapter-react-16 enzyme
+
+> npm test
+
+> https://jestjs.io/
+
+> https://enzymejs.github.io/enzyme/
+
+
+# Deployment
+
+> npm run build
+
+> npm install -g firebase-tools
+
