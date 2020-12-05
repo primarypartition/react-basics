@@ -77,3 +77,22 @@ localIdentName: '[name]__[local]__[hash:base64:5]'
 
 > npm install -g firebase-tools
 
+
+# Webpack 
+
+> npm install --save-dev webpack@4
+
+```
+mkdir project && cd project 
+npm init
+npm install --save-dev webpack webpack-dev-server
+npm install
+mkdir src && cd src
+touch index.html
+mkdir assets
+mkdir components
+mkdir containers
+mkdir hoc
+npm install --save-dev @babel/core @babel/preset-env @babel/preset-react @babel/preset-stage-2 babel-loader @babel/plugin-proposal-class-properties
+npm install --save-dev style-loader css-loader postcss-loader autoprefixer html-webpack-plugin file-loader
+```
