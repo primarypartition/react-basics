@@ -96,3 +96,20 @@ mkdir hoc
 npm install --save-dev @babel/core @babel/preset-env @babel/preset-react @babel/preset-stage-2 babel-loader @babel/plugin-proposal-class-properties
 npm install --save-dev style-loader css-loader postcss-loader autoprefixer html-webpack-plugin file-loader
 ```
+
+
+# Next JS
+
+> npm install --save-dev next react react-dom
+
+> npm run dev
+
+
+# Animation
+
+> npm install react-transition-group --save-dev
+
+
+# React Saga 
+
+> npm install --save-dev react-saga
